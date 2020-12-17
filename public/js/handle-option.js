@@ -129,15 +129,15 @@ function create_camera_access_notice() {
     const camera_access_notice = document.createElement("div");
     if(window.innerWidth <= 768) {
         camera_access_notice.innerHTML = `
-        <p class="ko">데스크톱 디바이스에서 접속해주세요.</p>
-        <p class="en" style="display: block;">Please connect from the desktop device.</p>
-        <p class="jp" style="display: block;">デスクトップデバイスから接続してください。</p>
+        <p class="ko" style="display: block; !important">데스크톱 디바이스에서 접속해주세요.</p>
+        <p class="en" style="display: block; !important">Please connect from the desktop device.</p>
+        <p class="jp" style="display: block; !important">デスクトップデバイスから接続してください。</p>
         `;
     } else {
         camera_access_notice.innerHTML = `
-        <p class="ko">먼저 웹 카메라의 사용을 허용해주세요.</p>
-        <p class="en" style="display: block;">Please admit web camera use.</p>
-        <p class="jp" style="display: block;">まずウェブカメラの使用を許可してください。</p>
+        <p class="ko" style="display: block; !important">먼저 웹 카메라의 사용을 허용해주세요.</p>
+        <p class="en" style="display: block; !important">Please admit web camera use.</p>
+        <p class="jp" style="display: block; !important">まずウェブカメラの使用を許可してください。</p>
         `;
     }
 

@@ -15,9 +15,9 @@ if (window.innerWidth <= 768) {
 function create_notice_mobile() {
     const createNotice = `
     <div id="notice-heading">
-        <p class="ko">이 웹사이트는 데스크톱 디바이스에서 원활한 사용이 가능합니다.</p>
-        <p class="en" style="display: block;">This website works seamlessly on desktop devices.</p>
-        <p class="jp" style="display: block;">このウェブサイトはデスクトップデバイスで円滑に利用できます。</p>
+        <p class="ko" style="display: block !important;">이 웹사이트는 데스크톱 디바이스에서 원활한 사용이 가능합니다.</p>
+        <p class="en" style="display: block !important;">This website works seamlessly on desktop devices.</p>
+        <p class="jp" style="display: block !important;">このウェブサイトはデスクトップデバイスで円滑に利用できます。</p>
     </div>
     <div id="notice-btns">
         <div id="yesbtn" class="btns">
@@ -53,9 +53,9 @@ function create_notice_mobile() {
 function create_notice_desktop() {
     const createNotice = `
     <div id="notice-heading">
-        <p class="ko">사이트에서 웹 카메라 사용을 요청합니다.</p>
-        <p class="en" style="display: block;">The site requests the use of a web camera.</p>
-        <p class="jp" style="display: block;">サイトがウェブカメラの使用を要請します。</p>
+        <p class="ko" style="display: block !important;">사이트에서 웹 카메라 사용을 요청합니다.</p>
+        <p class="en" style="display: block !important;">The site requests the use of a web camera.</p>
+        <p class="jp" style="display: block !important;">サイトがウェブカメラの使用を要請します。</p>
     </div>
     <div id="notice-btns">
         <div id="yesbtn" class="btns">
