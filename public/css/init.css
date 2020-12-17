@@ -2,6 +2,20 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
 
+@font-face {
+	font-family: 'Univers';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Univers Regular'), url('../../assets/fonts/UniversRegular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Univers';
+	font-style: normal;
+	font-weight: bold;
+	src: local('Univers Bold'), url('../../assets/fonts/UniversBold.woff') format('woff');
+}
+
 @keyframes flash {
     from {
         opacity: 0;
@@ -26,7 +40,7 @@
     box-sizing: border-box;
     user-select: none;
 
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Univers', sans-serif;
 
     word-break: keep-all;
 
@@ -66,20 +80,20 @@ sup {
 .ko {
     display: block;
     line-height: 1.65 !important;
-    font-family: 'Open Sans', 'Noto Sans KR', sans-serif !important;
+    font-family: 'Univers', 'Noto Sans KR', sans-serif !important;
 }
 
 .en {
     display: none;
     line-height: 1.45 !important;
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Univers', sans-serif !important;
 }
 
 .jp {
     display: none;
     line-height: 1.75 !important;
     word-break: break-all;
-    font-family: 'Open Sans', 'Noto Sans JP', sans-serif !important;
+    font-family: 'Univers', 'Noto Sans JP', sans-serif !important;
 }
 
 
