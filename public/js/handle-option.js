@@ -126,18 +126,18 @@ for (let i = 0; i < option.length; i++) { // manage boolean in handle-output.js
 }
 
 function create_camera_access_notice() {
-    const camera_access_notice = document.createElement("p");
+    const camera_access_notice = document.createElement("div");
     if(window.innerWidth <= 768) {
         camera_access_notice.innerHTML = `
-        데스크톱 디바이스에서 접속해주세요.<br>
-        Please connect from the desktop device.<br>
-        デスクトップデバイスから接続してください。
+        <p class="ko">데스크톱 디바이스에서 접속해주세요.</p>
+        <p class="en" style="display: block;">Please connect from the desktop device.</p>
+        <p class="jp" style="display: block;">デスクトップデバイスから接続してください。</p>
         `;
     } else {
         camera_access_notice.innerHTML = `
-        먼저 웹 카메라의 사용을 허용해주세요.<br>
-        Please admit web camera use.<br>
-        まずウェブカメラの使用を許可してください。
+        <p class="ko">먼저 웹 카메라의 사용을 허용해주세요.</p>
+        <p class="en" style="display: block;">Please admit web camera use.</p>
+        <p class="jp" style="display: block;">まずウェブカメラの使用を許可してください。</p>
         `;
     }
 
