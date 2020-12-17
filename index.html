@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nature Observation</title>
+    <meta name="title" content="Nature Observation">
+    <meta name="description"
+        content="This website uses face recognition API(face-api.js) and web camera to track the eyes location of a website user. Try to observe the front, back, left, right, top and bottom sides of a nature object, from your perspective, and create a modified nature object.">
+    <meta name="keywords" content="자연 관찰, Nature Observation, 自然観察">
+    <meta name="author" content="Jungju">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="public/css/init.css">
+    <script src="public/js/p5.js"></script>
+    <script defer src="public/js/face-api.min.js"></script>
+</head>
+
+<body>
+    <video id="webcamVideo" autoplay muted></video>
+
+    <a href="/" id="site-logo">Nature Observation</a>
+
+    <a id="toggle-notice"></a>
+    <div id="notice"></div>
+
+    <a id="toggle-menu"></a>
+    <div id="menu">
+        <div class="option-container-container langs-container">
+            <ul class="option-container lang-container">
+                <li class="option-lang">
+                    한국어
+                    <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5" style="transform: scaleY(-1);"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <title>arrow</title>
+                        <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                    </svg>
+                </li>
+                <li class="option-lang">
+                    English
+                    <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5" style="transform: scaleY(-1);"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <title>arrow</title>
+                        <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                    </svg>
+                </li>
+                <li class="option-lang">
+                    日本語
+                    <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5" style="transform: scaleY(-1);"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <title>arrow</title>
+                        <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                    </svg>
+                </li>
+            </ul>
+        </div>
+        <div id="description">
+            <div id="main-desc">
+                <p class="ko">
+                    <b>자연관찰</b><br>
+                    인간과 자연은 뗄 수 없는 관계다. &ldquo;땅을 정복하고, 바다의 물고기와 하늘의 새와 땅에 움직이는 모든 생물을 다스리자!&rdquo;
+                    인간의 개발 행보는 자연의 회복 수준을 넘어섰고 돌이키기 어려운 훼손 지점에 이르게 되었다.
+                    현시점에서의 여러 환경 문제들을 생각해보았을 때. 인간이 자연의 관리자로서 좋은 평가를 받기는 어려울 것 같다.<br><br>
+                    영국에서 제작한 다큐멘터리 &lt;Spy in the Wild&gt;(2017)<sup>[1]</sup>에서는 동물을 모방한 로봇을 만든 뒤, 그것을 자연에 배치하여 관찰 도구로
+                    사용했다.
+                    그러한 관찰 방법과 씬(Scene) 자체에서 느껴지는 이질적인 분위기가 인상에 남았다. 사람의 눈을 대신하는 카메라의 렌즈, 그 렌즈를 눈으로 장착한 로봇, 그 로봇에게
+                    관찰당하는 자연과 동물.
+                    은유적으로 &lsquo;그저 사람이 보는 것만으로도 자연이 왜곡되고 변형될 수 있겠다&rsquo;는 생각을 해보았다.
+                </p>
+                <p class="en">
+                    <b>Nature Observation</b><br>
+                    Man and nature are inseparable relationships. &ldquo;Let's rule over the fish of the sea and the
+                    birds of the air and over every living creature that moves on the ground!&rdquo;
+                    The development of man towards nature was beyond nature's ability to recover, and it reached in an
+                    irreparable situation. Considering the various environmental issues
+                    we face today, it seems difficult for humans to get a good evaluation as a nature's manager.<br><br>
+                    The British documentary, &lt;Spy in the Wild&gt;(2017)<sup>[1]</sup>, made robots imitating
+                    animals, placed them in the natural environment,
+                    and used them as nature observation tools. Such observation methods and scenes from the documentary
+                    left a strong impression on me.
+                    The camera lens acting as human eyes, robots with the lens(as their eyes), and nature & animals
+                    observed by the robots.
+                    Metaphorically, I thought, &lsquo;Humans see nature. For that alone nature is distorted or
+                    altered.&rsquo;
+                </p>
+                <p class="jp">
+                    <b>自然観察</b><br>
+                    人間と自然は切っても切れない関係だ。
+                    「地を征服し、海の魚と空の鳥、地で動くすべての生物を治めよう！」 人間の開発は自然の回復能力を超えており、取り返しのつかない状態に至った。
+                    現在の様々な環境問題を考えてみると、人間が自然の管理者として良い評価を受けることは難しそうだ。<br><br>
+                    イギリスのドキュメンタリー、&lt;Spy in the Wild&gt;(2017)<sup>[1]</sup>では、動物を模倣したロボットを作り、
+                    それを自然環境に配置して観察道具として使用した。
+                    そうした観察の方法、そして、映像から感じられる異質な雰囲気が印象に残った。
+                    人の目に代わるカメラのレンズ、そのレンズを目として装着されたロボット、そのロボットが観察する自然と動物。
+                    隠喩的に、「ただ人間が見るだけで、自然が歪曲される、変形されるかもしれない」と考えた。
+                </p>
+                <br><br>
+                <p class="ko">
+                    <b>웹사이트</b><br>
+                    얼굴 인식 API(face-api.js)<sup>[2]</sup>와 웹 카메라를 사용해 웹사이트 유저의 눈 위치를 추적합니다. 자신의 시각으로 자연물의 앞뒤/상하/좌우를 관찰하며
+                    변형된 자연물을 만들어봅니다.<br>
+                    <span class="custom-list-exp">·</span>데스크톱 디바이스, 아울러 크롬과 파이어폭스 브라우저에 최적화되어 있습니다.<br>
+                    <span class="custom-list-exp">·</span>웹 카메라의 사용을 허용해야 하며 브라우저 버전에 따라 기능이 지원되지 않을 수 있습니다.<br>
+                    <span class="custom-list-exp">·</span>웹 카메라 연결에 성공했다면 우측의 자연물을 클릭해 회전시키며 관찰을 시작해보세요.
+                </p>
+                <p class="en">
+                    <b>Website</b><br>
+                    The website uses face recognition API(face-api.js)<sup>[2]</sup> and web camera to track the eyes
+                    location of a website user. Try to observe the front, back, left, right,
+                    top and bottom sides of a nature object, from your perspective, and create a modified nature
+                    object.<br>
+                    <span class="custom-list-exp">·</span>This website is optimized for desktop devices, as well as
+                    Chrome and Firefox browsers.<br>
+                    <span class="custom-list-exp">·</span>This website must be allowed to use a web camera and may not
+                    be supported depending on your browser version.<br>
+                    <span class="custom-list-exp">·</span>After successfully connecting to the web camera, click and
+                    rotate the nature objects on the right to begin observing.
+                </p>
+                <p class="jp">
+                    <b>ウェブサイト</b><br>
+                    顔認識API(face-api.js)<sup>[2]</sup>、そしてウェブカメラを使ってウェブサイトユーザーの目の位置を追跡します。
+                    自分の視点で自然物の前後/上下/左右を観察し、変形した自然物を作ってみます。<br>
+                    <span class="custom-list-exp">·</span>デスクトップデバイス、あわせてChromeとFirefoxブラウザに最適化されています。<br>
+                    <span class="custom-list-exp">·</span>ウェブカメラの使用を許可する必要があり、ブラウザのバージョンによっては、サポートされない場合があります。<br>
+                    <span class="custom-list-exp">·</span>ウェブカメラの接続に成功したら、右側の自然物をクリックして回転させながら観察を始めてください。
+                </p>
+                <br><br>
+                <p class="ko"><b>사용예시</b></p>
+                <p class="en"><b>Example</b></p>
+                <p class="jp"><b>使用ガイド</b></p>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/WfXk7RKYvqE?controls=0"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+                <br><br>
+                <p class="ko">
+                    <b>사진투고</b><br>
+                    자연물을 앞뒤/상하/좌우로 촬영한 사진을 투고받습니다. 보내주신 사진은 서명 혹은 닉네임을 기재하여 웹사이트에서 사용하게 됩니다. 관심이 있으신 분은 아래 메일주소로 보내주세요.
+                    감사합니다.<br>
+                    <a href="mailto:lizaillust@gmail.com">lizaillust@gmail.com</a>
+                </p>
+                <p class="en">
+                    <b>Photo Submission</b><br>
+                    Please submit photos of the natural object, front, back, left, right, top, bottom.
+                    The photos you sent will be used on the website with your signature on them.
+                    If you are interested, please send them to the email address below. Thank you.<br>
+                    <a href="mailto:lizaillust@gmail.com">lizaillust@gmail.com</a>
+                </p>
+                <p class="jp">
+                    <b>写真投稿</b><br>
+                    自然物を前後/上下/左右から撮影した写真を投稿してください。 お送りいただいた写真は、撮影者の方のお名前(もしくはニックネーム)を記載し、使用します。
+                    関心がある方は下記のメールアドレスにお送りください。 ありがとうございます。<br>
+                    <a href="mailto:lizaillust@gmail.com">lizaillust@gmail.com</a>
+                </p>
+            </div>
+            <div id="sub-desc">
+                <p class="ko">
+                    [1] BBC Natural History Unit, John Downer Productions, PBS에서 제작하여 2017년에 방영한 영국의 자연 다큐멘터리 TV 시리즈.
+                    특별제작한 애니매트로닉스(Animatronics) &lsquo;스파이 크리처&rsquo;를 사용하여 동물의 복잡한 감정을 관찰하는데 집중했다.<br>
+                    [2] <a href="https://justadudewhohacks.github.io/face-api.js/docs/index.html"
+                        target="_blank">https://justadudewhohacks.github.io/face-api.js/docs/index.html</a>
+                </p>
+                <p class="en">
+                    [1] Spy in the Wild is a British nature documentary television series, produced by BBC Natural
+                    History Unit, John Downer Productions and PBS.
+                    The series premiered in 2017. The series focuses on the complex emotions of animals, using specially
+                    built animatronics &lsquo;Spy Creatures&rsquo;.<br>
+                    [2] <a href="https://justadudewhohacks.github.io/face-api.js/docs/index.html"
+                        target="_blank">https://justadudewhohacks.github.io/face-api.js/docs/index.html</a>
+                </p>
+                <p class="jp">
+                    [1] BBC Natural History Unit、John Downer Productions、PBSが制作して2017年に放送したイギリスの自然ドキュメンタリーTVシリーズ。
+                    特別制作したアニメトロニクス(Animatronics)、「Spy Creatures」を使って動物の複雑な感情を観察することに集中した。<br>
+                    [2] <a href="https://justadudewhohacks.github.io/face-api.js/docs/index.html"
+                        target="_blank">https://justadudewhohacks.github.io/face-api.js/docs/index.html</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <div id="output" class="wrapper-child">
+            <div class="option-container-container">
+                <ul class="option-container output-options">
+                    <li class="option">
+                        Fill
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <!-- <li class="option">
+                        Stroke
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li> -->
+                </ul>
+                <ul class="option-container output-options">
+                    <li class="option">
+                        Full Data
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Instant Data
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                </ul>
+                <ul class="option-container output-options">
+                    <li class="option">
+                        Show Box
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Hide Box
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                </ul>
+                <ul class="option-container output-options">
+                    <li class="option">
+                        Rotate Box
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Fix Box
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="input" class="wrapper-child">
+            <div class="option-container-container">
+                <ul class="option-container input-options">
+                    <li class="option">
+                        Butterfly
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                </ul>
+                <ul class="option-container input-options">
+                    <li class="option">
+                        Front
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Right
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Back
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Left
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Top
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                    <li class="option">
+                        Bottom
+                        <svg class="arrow" width="10" height="5.5" viewBox="0 0 10 5.5"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>arrow</title>
+                            <polygon points="9.355 5.5 4.999 1.307 0.644 5.5 0 4.813 4.999 0 10 4.813 9.355 5.5" />
+                        </svg>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="public/js/main.js"></script>
+<script src="public/js/create-cube.js"></script>
+<script src="public/js/create-instance-canvas.js"></script>
+<script src="public/js/handle-menu.js"></script>
+<script src="public/js/handle-selector.js"></script>
+<script src="public/js/handle-output.js"></script>
+<script src="public/js/handle-notice.js"></script>
+<script src="public/js/handle-option.js"></script>
+<script src="public/js/handle-video.js"></script>
+
+</html>
